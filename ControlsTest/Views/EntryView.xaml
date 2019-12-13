@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ControlsTest.Views.EntryView"
+             xmlns:controls="clr-namespace:ControlsTest.Controls">
+    <ContentView.Content>
+        <StackLayout>
+            <Frame BackgroundColor="White" Margin="10" Padding="4" CornerRadius="20" HeightRequest="40" HasShadow="False">
+                <StackLayout WidthRequest="500" Orientation="Horizontal" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                    <Label Text="Project" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Start" Margin="10"/>
+                    <controls:EntryWithoutBorder x:Name="MainEntry" Placeholder="project name" HorizontalTextAlignment="End" VerticalOptions="Center" HorizontalOptions="EndAndExpand" Margin="10" FontAttributes="Bold"/>
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

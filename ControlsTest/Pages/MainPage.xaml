@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="ControlsTest.MainPage"
+             xmlns:views="clr-namespace:ControlsTest.Views">
+    <Grid>
+        <StackLayout Orientation="Horizontal" Spacing="0">
+            <StackLayout BackgroundColor="#efeeef" WidthRequest="500" Margin="0">
+                <views:EntryView Margin="0,100,0,0" IsEnabled="{Binding IsChangesEnabled}" EntryTextColor="{Binding MainColor}"/>
+                <views:EditorView/>
+                <Button Text="Sync" Command="{Binding Sync}"/>
+                <Button Text="Day cards" Command="{Binding DayCardsPage}"/>
+            </StackLayout>
+            <StackLayout Margin="0" BackgroundColor="Aqua" HorizontalOptions="EndAndExpand">
+            </StackLayout>
+        </StackLayout>
+
+        <ContentView BackgroundColor="#C0808080" Padding="10, 0" IsVisible="{Binding IsSyncPopUpVissible}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">  
+            <Frame  VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="120" WidthRequest="300" BackgroundColor="White">
+                <StackLayout Orientation="Vertical">
+                    <Label Margin="0,5,0,5" TextColor="Black" VerticalOptions="Start" HorizontalOptions="Center" VerticalTextAlignment="Center"  Text="Syncing..." FontSize="20"/>  
+                    <ProgressBar x:Name="MainProgressBar" Progress="{Binding Progress}"/>
+                </StackLayout>  
+            </Frame>
+        </ContentView>
+    </Grid>
+</ContentPage>

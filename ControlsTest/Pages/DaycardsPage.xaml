@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ControlsTest.Pages.DaycardsPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout Orientation="Horizontal" Margin="20">
+                <Button Text="⇦" FontSize="30" TextColor="Black" Command="{Binding GoBack}" VerticalOptions="Start"/>
+                <Label Text="Equipment Day Cards" FontSize="30" VerticalOptions="Start" HorizontalOptions="CenterAndExpand"/>
+            </StackLayout>
+
+            <CollectionView ItemsSource="{Binding Dates}"
+                            VerticalOptions="Start"
+                            HorizontalOptions="CenterAndExpand"
+                            SelectionMode="Single"   
+                            HeightRequest="40">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="5" Margin="10" VerticalOptions="Start" BorderColor="Black" HasShadow="False" CornerRadius="20" WidthRequest="100">
+                            <Label Text="{Binding .}" VerticalOptions="Center" HorizontalOptions="Center"/>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
