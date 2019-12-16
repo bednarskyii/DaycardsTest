@@ -8,7 +8,7 @@
             <Frame BackgroundColor="White" Margin="10" Padding="4" CornerRadius="20" HeightRequest="40" HasShadow="False">
                 <StackLayout WidthRequest="500" Orientation="Horizontal" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
                     <Label Text="Project" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Start" Margin="10"/>
-                    <controls:EntryWithoutBorder x:Name="MainEntry" Placeholder="project name" HorizontalTextAlignment="End" VerticalOptions="Center" HorizontalOptions="EndAndExpand" Margin="10" FontAttributes="Bold"/>
+                    <controls:EntryWithoutBorder x:Name="MainEntry" HeightRequest="50" Placeholder="project name" HorizontalTextAlignment="End" VerticalOptions="Center" HorizontalOptions="EndAndExpand" Margin="10" FontAttributes="Bold"/>
                 </StackLayout>
             </Frame>
         </StackLayout>

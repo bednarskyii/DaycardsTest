@@ -1,30 +1,104 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ControlsTest.Pages.DaycardsPage">
+             x:Class="ControlsTest.Pages.DaycardsPage"
+             xmlns:controls="clr-namespace:ControlsTest.Controls">
     <ContentPage.Content>
         <StackLayout>
             <StackLayout Orientation="Horizontal" Margin="20">
-                <Button Text="⇦" FontSize="30" TextColor="Black" Command="{Binding GoBack}" VerticalOptions="Start"/>
-                <Label Text="Equipment Day Cards" FontSize="30" VerticalOptions="Start" HorizontalOptions="CenterAndExpand"/>
+                <Button Text="⇦"
+                        FontSize="30"
+                        TextColor="Black"
+                        Command="{Binding GoBack}"
+                        VerticalOptions="Start"/>
+                <Label Text="Equipment Day Cards"
+                       FontSize="30"
+                       VerticalOptions="Start"
+                       HorizontalOptions="CenterAndExpand"/>
             </StackLayout>
 
             <CollectionView ItemsSource="{Binding Dates}"
                             VerticalOptions="Start"
                             HorizontalOptions="CenterAndExpand"
                             SelectionMode="Single"   
-                            HeightRequest="40">
+                            HeightRequest="40"
+                            Margin="40, 0, 40, 0"
+                            HorizontalScrollBarVisibility="Never">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10"/>
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame Padding="5" Margin="10" VerticalOptions="Start" BorderColor="Black" HasShadow="False" CornerRadius="20" WidthRequest="100">
-                            <Label Text="{Binding .}" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            <Label Text="{Binding ., StringFormat='{0:ddd dd/MM}'}"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center"/>
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+
+            <ListView ItemsSource="{Binding CardsList}"
+                      SeparatorVisibility="None"
+                      HasUnevenRows="True"
+                      SelectionMode="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                            <StackLayout BackgroundColor="#efeeef" Margin="30, 30, 30, 0" Spacing="2" Padding="2">
+                                <StackLayout HeightRequest="50" BackgroundColor="Transparent">
+                                    <Label Text="{Binding DayCardId}"
+                                           VerticalOptions="CenterAndExpand"
+                                           Margin="10"
+                                           FontAttributes="Bold"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" HeightRequest="50" BackgroundColor="White">
+                                   <Label Text="Default name" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Start" Margin="10"/>
+                                   <Button Text="Operator" HorizontalOptions="EndAndExpand" TextColor="Black" Margin="10"/>
+                                </StackLayout>  
+                                <StackLayout Orientation="Horizontal" HeightRequest="50" BackgroundColor="White">
+                                   <Label Text="Hours" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Start" Margin="10"/>
+                                   <controls:EntryWithoutBorder WidthRequest="150"
+                                                                HeightRequest="50"
+                                                                HorizontalTextAlignment="End"
+                                                                VerticalOptions="Center"
+                                                                HorizontalOptions="EndAndExpand"
+                                                                Margin="10"
+                                                                FontAttributes="Bold"
+                                                                Placeholder="set hours"
+                                                                Text="{Binding Hours}"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" HeightRequest="50" BackgroundColor="White">
+                                   <Label Text="Miles" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Start" Margin="10"/>
+                                   <controls:EntryWithoutBorder WidthRequest="150"
+                                                                HeightRequest="50"
+                                                                HorizontalTextAlignment="End"
+                                                                VerticalOptions="Center"
+                                                                HorizontalOptions="EndAndExpand"
+                                                                Margin="10"
+                                                                FontAttributes="Bold"
+                                                                Placeholder="set miles"
+                                                                Text="{Binding Miles}"/>
+                                </StackLayout>  
+                            </StackLayout>
+                            <Label Text="!" HorizontalOptions="Start" VerticalOptions="Start" Margin="25" TextColor="Red" IsVisible="false"/>
+                            <Label Text="✓" HorizontalOptions="Start" VerticalOptions="Start" Margin="25" TextColor="Green" IsVisible="{Binding IsValid}"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Button Text="Add Daycard"
+                    Margin="10"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="End"
+                    HeightRequest="40"
+                    WidthRequest="170"
+                    TextColor="White"
+                    BackgroundColor="#4f64f7"
+                    Command="{Binding CreateNewDaycard}"/>
 
         </StackLayout>
     </ContentPage.Content>

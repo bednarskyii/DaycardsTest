@@ -11,7 +11,7 @@ namespace ControlsTest
         {
             InitializeComponent();
 
-            MainPage = new DaycardsPage();
+            MainPage = new MainPage();
         }
 
         protected override void OnStart()
