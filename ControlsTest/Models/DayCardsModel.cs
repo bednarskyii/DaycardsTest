@@ -6,50 +6,61 @@ namespace ControlsTest.Models
     public class DayCardsModel : INotifyPropertyChanged
     {
         public string DayCardId { get; set; }
-        public string Operator { get; set; }
 
-        private int? hours;
-        public int? Hours
+        private bool isOperatorValid;
+        public bool IsOperatorValid
+        {
+            get => isOperatorValid;
+            set
+            {
+                isOperatorValid = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsOperatorValid)));
+            }
+        }
+
+
+        private string _operator;
+        public string Operator
+        {
+            get => _operator;
+            set
+            {
+                _operator = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Operator)));
+            }
+        }
+
+        private bool isHoursValid;
+        public bool IsHoursValid
+        {
+            get => isHoursValid;
+            set
+            {
+                isHoursValid = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsHoursValid)));
+            }
+        }
+
+        private string hours;
+        public string Hours
         {
             get => hours;
             set
             {
-                try
-                {
-                    hours = value;
-                    if (value != 0 && Miles != 0 && value != null && Miles != null)
-                        IsValid = true;
-                    else
-                        IsValid = false;
-                }
-                catch (Exception e)
-                {
-                    IsValid = false;
-                    var t = e.Message;
-                }
+                hours = value;
+                ValidationCheck();
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Hours)));
             }
         }
 
-        private int? miles;
-        public int? Miles
+        private string miles;
+        public string Miles
         {
             get => miles;
             set
             {
-                try
-                {
-                    miles = value;
-                    if (value != 0 && Hours != 0 && value != null && Hours != null)
-                        IsValid = true;
-                    else
-                        IsValid = false;
-                }
-                catch(Exception e)
-                {
-                    IsValid = false;
-                    var t = e.Message;
-                }
+                miles = value;
+                ValidationCheck();
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Miles)));
             }
         }
@@ -65,5 +76,46 @@ namespace ControlsTest.Models
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void ValidationCheck()
+        {
+            try
+            {
+                int hrs;
+                int mls;
+
+                if (Hours != "")
+                    hrs = Convert.ToInt32(Hours);
+                else
+                    hrs = 0;
+
+                if (Hours != "")
+                    mls = Convert.ToInt32(Miles);
+                else
+                    mls = 0;
+
+
+                if (hrs > 0 && hrs < 24)
+                    IsHoursValid = true;
+                else
+                    IsHoursValid = false;
+
+                if (!string.IsNullOrEmpty(Operator))
+                    IsOperatorValid = true;
+                else
+                    IsOperatorValid = false;
+
+                if (IsOperatorValid && IsHoursValid)
+                    IsValid = true;
+                else
+                    IsValid = false;
+            }
+            catch (Exception e)
+            {
+                IsValid = false;
+            }
+
+
+        }
     }
 }

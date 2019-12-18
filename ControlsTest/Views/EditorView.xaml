@@ -1,15 +1,41 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ControlsTest.Views.EditorView">
+             x:Class="ControlsTest.Views.EditorView"
+             x:Name="SizingEditorView">
     <ContentView.Content>
         <StackLayout>
             <Frame BackgroundColor="White" Margin="10" Padding="4" CornerRadius="15" HasShadow="False">
                 <StackLayout WidthRequest="500" Orientation="Vertical" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
                     <Label Text="Comments" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Start" Margin="10,10,0,0"/>
-                    <Grid>
-                        <Editor VerticalOptions="Center" WidthRequest="300" HeightRequest="{Binding EditorHeight}"/>
-                        <Button Command="{Binding ChangeEditorSize}" Text="..." Padding="5" TextColor="Black" FontSize="20" FontAttributes="Bold" Margin="10" HeightRequest="15" BackgroundColor="White" VerticalOptions="End" HorizontalOptions="End"/>
+                    <Grid x:Name="EditorGrid">
+                        <Editor BindingContext="{x:Reference Name=SizingEditorView}"
+                                VerticalOptions="Center"
+                                WidthRequest="300"
+                                HeightRequest="50"
+                                x:Name="mainEditor"
+                                BackgroundColor="Transparent"
+                                Text="{Binding EditorText}"/>
+                        <Editor BindingContext="{x:Reference Name=SizingEditorView}"
+                                VerticalOptions="Center"
+                                WidthRequest="300"
+                                AutoSize="TextChanges"
+                                x:Name="expandedEditor"
+                                IsVisible="false"
+                                BackgroundColor="Transparent"
+                                Text="{Binding EditorText}"/>
+
+                        <Button Text="..."
+                                Padding="5"
+                                TextColor="Black"
+                                FontSize="20"
+                                FontAttributes="Bold"
+                                Margin="10"
+                                HeightRequest="15"
+                                BackgroundColor="White"
+                                VerticalOptions="End"
+                                HorizontalOptions="End"
+                                Clicked="OnChangeEditorSizeClicked" />
                     </Grid>
                 </StackLayout>
             </Frame>

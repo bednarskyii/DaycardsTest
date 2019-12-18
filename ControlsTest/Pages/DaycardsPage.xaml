@@ -2,7 +2,15 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ControlsTest.Pages.DaycardsPage"
-             xmlns:controls="clr-namespace:ControlsTest.Controls">
+             xmlns:controls="clr-namespace:ControlsTest.Controls"
+             xmlns:converters="clr-namespace:ControlsTest.Converters">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BoolReverseConverter x:Key="BoolReverse"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
         <StackLayout>
             <StackLayout Orientation="Horizontal" Margin="20">
@@ -54,8 +62,14 @@
                                            FontAttributes="Bold"/>
                                 </StackLayout>
                                 <StackLayout Orientation="Horizontal" HeightRequest="50" BackgroundColor="White">
-                                   <Label Text="Default name" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Start" Margin="10"/>
-                                   <Button Text="Operator" HorizontalOptions="EndAndExpand" TextColor="Black" Margin="10"/>
+                                   <Label Text="Operator" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Start" Margin="10"/>
+                                   <Button Text="{Binding Operator}" HorizontalOptions="EndAndExpand" TextColor="Black" Margin="10"/>
+                                   <BoxView VerticalOptions="Fill"
+                                            HorizontalOptions="End"
+                                            WidthRequest="3"
+                                            Color="#9cc254"
+                                            IsVisible="{Binding IsOperatorValid}"/>
+
                                 </StackLayout>  
                                 <StackLayout Orientation="Horizontal" HeightRequest="50" BackgroundColor="White">
                                    <Label Text="Hours" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Start" Margin="10"/>
@@ -68,6 +82,11 @@
                                                                 FontAttributes="Bold"
                                                                 Placeholder="set hours"
                                                                 Text="{Binding Hours}"/>
+                                    <BoxView VerticalOptions="Fill"
+                                             HorizontalOptions="End"
+                                             WidthRequest="3"
+                                             Color="#9cc254"
+                                             IsVisible="{Binding IsHoursValid}"/>
                                 </StackLayout>
                                 <StackLayout Orientation="Horizontal" HeightRequest="50" BackgroundColor="White">
                                    <Label Text="Miles" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Start" Margin="10"/>
@@ -80,9 +99,14 @@
                                                                 FontAttributes="Bold"
                                                                 Placeholder="set miles"
                                                                 Text="{Binding Miles}"/>
+                                    <BoxView VerticalOptions="Fill"
+                                             HorizontalOptions="End"
+                                             WidthRequest="3"
+                                             Color="#9cc254"/>
+
                                 </StackLayout>  
                             </StackLayout>
-                            <Label Text="!" HorizontalOptions="Start" VerticalOptions="Start" Margin="25" TextColor="Red" IsVisible="false"/>
+                            <Label Text="!" HorizontalOptions="Start" VerticalOptions="Start" Margin="25" TextColor="Red" IsVisible="{Binding IsValid, Converter={StaticResource BoolReverse}}"/>
                             <Label Text="✓" HorizontalOptions="Start" VerticalOptions="Start" Margin="25" TextColor="Green" IsVisible="{Binding IsValid}"/>
                             </Grid>
                         </ViewCell>

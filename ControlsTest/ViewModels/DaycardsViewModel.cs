@@ -17,6 +17,7 @@ namespace ControlsTest.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public Command SelectOperator { get; set; }
         public Command GoBack { get; set; }
         public Command CreateNewDaycard { get; set; }
 
@@ -45,9 +46,9 @@ namespace ControlsTest.ViewModels
             Navigation = navigation;
 
             List<DayCardsModel> cards = new List<DayCardsModel>();
-            cards.Add(new DayCardsModel { DayCardId = "0301", Hours = 12, Miles = 132, Operator = "Serg" });
-            cards.Add(new DayCardsModel { DayCardId = "0131", Hours = 16, Miles = 12, Operator = "Vasyl" });
-            cards.Add(new DayCardsModel { DayCardId = "0000", Miles = 12, Operator = "Vasyl" });
+            cards.Add(new DayCardsModel { DayCardId = "0301", Hours = "12", Miles = "132", Operator = "Serg" });
+            cards.Add(new DayCardsModel { DayCardId = "0131", Hours = "16", Miles = "12", Operator = "Vasyl" });
+            cards.Add(new DayCardsModel { DayCardId = "0000", Miles = "12", Operator = "Vasyl" });
 
             CardsList = new ObservableCollection<DayCardsModel>(cards);
 
@@ -56,6 +57,7 @@ namespace ControlsTest.ViewModels
 
             GoBack = new Command(() => OnGoBackClicked());
             CreateNewDaycard = new Command(() => OnCreateNewDaycardClicked());
+            //SelectOperator = new Command(() => OnSelectOperatorClicked());
         }
 
         private async Task OnGoBackClicked()
@@ -76,6 +78,11 @@ namespace ControlsTest.ViewModels
                 monthDates.Add(firstDay);
                 firstDay = firstDay.AddDays(1);
             }
+        }
+
+        private void OnSelectOperatorClicked(object sender, EventArgs args)
+        {
+            
         }
     }
 }
