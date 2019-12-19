@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using ControlsTest.Database;
 using ControlsTest.Models;
 using Xamarin.Forms;
 
@@ -10,16 +11,31 @@ namespace ControlsTest.ViewModels
 {
     public class DaycardsViewModel : INotifyPropertyChanged
     {
+        private IDatabaseRepository database;
         private INavigation Navigation;
-        private List<DateTime> monthDates = new List<DateTime>();
-        private ObservableCollection<DateTime> dates;
+        private List<DayModel> monthDates = new List<DayModel>();
+        private ObservableCollection<DayModel> dates;
         private ObservableCollection<DayCardsModel> cardsList;
+        private DayModel selectesDate;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public Command SelectOperator { get; set; }
         public Command GoBack { get; set; }
         public Command CreateNewDaycard { get; set; }
+        public Command AddDayCard { get; set; }
+
+        public DayModel SelectedDate
+        {
+            get => selectesDate;
+            set
+            {
+                UpdateChangedDaycards();
+                selectesDate = value;
+                FillDaycardsList();
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedDate)));
+            }
+        }
 
         public ObservableCollection<DayCardsModel> CardsList
         {
@@ -31,7 +47,7 @@ namespace ControlsTest.ViewModels
             }
         }
 
-        public ObservableCollection<DateTime> Dates
+        public ObservableCollection<DayModel> Dates
         {
             get => dates;
             set
@@ -43,21 +59,23 @@ namespace ControlsTest.ViewModels
 
         public DaycardsViewModel(INavigation navigation)
         {
+            database = new DatabaseRepository();
             Navigation = navigation;
 
-            List<DayCardsModel> cards = new List<DayCardsModel>();
-            cards.Add(new DayCardsModel { DayCardId = "0301", Hours = "12", Miles = "132", Operator = "Serg" });
-            cards.Add(new DayCardsModel { DayCardId = "0131", Hours = "16", Miles = "12", Operator = "Vasyl" });
-            cards.Add(new DayCardsModel { DayCardId = "0000", Miles = "12", Operator = "Vasyl" });
-
-            CardsList = new ObservableCollection<DayCardsModel>(cards);
-
+            FillDaycardsList();
             FillMonthDates();
-            Dates = new ObservableCollection<DateTime>(monthDates);
+            Dates = new ObservableCollection<DayModel>(monthDates);
 
+            AddDayCard = new Command(() => OnAddDayCardClicked());
             GoBack = new Command(() => OnGoBackClicked());
             CreateNewDaycard = new Command(() => OnCreateNewDaycardClicked());
             //SelectOperator = new Command(() => OnSelectOperatorClicked());
+        }
+
+        private async Task FillDaycardsList()
+        {
+            List<DayCardsModel> cards = await database.GetDayCardsAsync(SelectedDate.Date);
+            CardsList = new ObservableCollection<DayCardsModel>(cards);
         }
 
         private async Task OnGoBackClicked()
@@ -75,7 +93,10 @@ namespace ControlsTest.ViewModels
             DateTime firstDay = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             for (int i = 0; i < DateTime.DaysInMonth(DateTime.Now.Month, 1); i++)
             {
-                monthDates.Add(firstDay);
+                if(firstDay.Date == DateTime.Now.Date)
+                    monthDates.Add(new DayModel { Date = firstDay, BackgroundColor = Color.FromHex("#9cc254") });
+                else
+                    monthDates.Add(new DayModel { Date = firstDay});
                 firstDay = firstDay.AddDays(1);
             }
         }
@@ -83,6 +104,24 @@ namespace ControlsTest.ViewModels
         private void OnSelectOperatorClicked(object sender, EventArgs args)
         {
             
+        }
+
+        private async Task OnAddDayCardClicked()
+        {
+            int random = new Random().Next(1000, 9999);
+            await database.SaveDayCardAsync(new DayCardsModel { Date = SelectedDate.Date, DayCardNumber = random.ToString() });
+            await FillDaycardsList();
+        }
+
+        private async Task UpdateChangedDaycards()
+        {
+            List<DayCardsModel> updatedDaycards = new List<DayCardsModel>(CardsList);
+            await database.DeleteDayCardByDateAsync(SelectedDate.Date);
+
+            foreach (var item in updatedDaycards)
+            {
+                await database.SaveDayCardAsync(item);
+            }
         }
     }
 }

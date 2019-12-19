@@ -1,11 +1,16 @@
 ﻿using System;
 using System.ComponentModel;
+using SQLite;
 
 namespace ControlsTest.Models
 {
     public class DayCardsModel : INotifyPropertyChanged
     {
-        public string DayCardId { get; set; }
+        [PrimaryKey] [AutoIncrement]
+        public int DayCardId { get; set; }
+
+        public DateTime Date { get; set; }
+        public string DayCardNumber { get; set; }
 
         private bool isOperatorValid;
         public bool IsOperatorValid
@@ -82,18 +87,11 @@ namespace ControlsTest.Models
             try
             {
                 int hrs;
-                int mls;
 
                 if (Hours != "")
                     hrs = Convert.ToInt32(Hours);
                 else
                     hrs = 0;
-
-                if (Hours != "")
-                    mls = Convert.ToInt32(Miles);
-                else
-                    mls = 0;
-
 
                 if (hrs > 0 && hrs < 24)
                     IsHoursValid = true;

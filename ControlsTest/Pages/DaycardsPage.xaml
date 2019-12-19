@@ -28,8 +28,9 @@
             <CollectionView ItemsSource="{Binding Dates}"
                             VerticalOptions="Start"
                             HorizontalOptions="CenterAndExpand"
-                            SelectionMode="Single"   
-                            HeightRequest="40"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding SelectedDate}"
+                            HeightRequest="40" 
                             Margin="40, 0, 40, 0"
                             HorizontalScrollBarVisibility="Never">
                 <CollectionView.ItemsLayout>
@@ -37,8 +38,15 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame Padding="5" Margin="10" VerticalOptions="Start" BorderColor="Black" HasShadow="False" CornerRadius="20" WidthRequest="100">
-                            <Label Text="{Binding ., StringFormat='{0:ddd dd/MM}'}"
+                        <Frame Padding="5"
+                               Margin="10"
+                               VerticalOptions="Start"
+                               BorderColor="Black"
+                               HasShadow="False"
+                               CornerRadius="20"
+                               WidthRequest="100"
+                               BackgroundColor="{Binding BackgroundColor}">
+                            <Label Text="{Binding Date, StringFormat='{0:ddd dd/MM}'}"
                                    VerticalOptions="Center"
                                    HorizontalOptions="Center"/>
                         </Frame>
@@ -56,7 +64,7 @@
                             <Grid>
                             <StackLayout BackgroundColor="#efeeef" Margin="30, 30, 30, 0" Spacing="2" Padding="2">
                                 <StackLayout HeightRequest="50" BackgroundColor="Transparent">
-                                    <Label Text="{Binding DayCardId}"
+                                    <Label Text="{Binding DayCardNumber}"
                                            VerticalOptions="CenterAndExpand"
                                            Margin="10"
                                            FontAttributes="Bold"/>
@@ -122,7 +130,7 @@
                     WidthRequest="170"
                     TextColor="White"
                     BackgroundColor="#4f64f7"
-                    Command="{Binding CreateNewDaycard}"/>
+                    Command="{Binding AddDayCard}"/>
 
         </StackLayout>
     </ContentPage.Content>
