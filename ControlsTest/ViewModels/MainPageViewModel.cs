@@ -85,7 +85,14 @@ namespace ControlsTest.ViewModels
 
         private async Task OnDayCardsPageClicked()
         {
-            await Navigation.PushModalAsync(new DaycardsPage());
+            try
+            {
+                await Navigation.PushModalAsync(new DaycardsPage());
+            }
+            catch(Exception e)
+            {
+                var d = e.Message;
+            }
         }
 
     }

@@ -1,11 +1,18 @@
 ﻿using System;
 using System.ComponentModel;
 using SQLite;
+using Xamarin.Forms;
 
 namespace ControlsTest.Models
 {
     public class DayCardsModel : INotifyPropertyChanged
     {
+        public DayModel DayUrl;
+        public DayCardsModel()
+        {
+            DayUrl = new DayModel();
+        }
+
         [PrimaryKey] [AutoIncrement]
         public int DayCardId { get; set; }
 
@@ -104,9 +111,25 @@ namespace ControlsTest.Models
                     IsOperatorValid = false;
 
                 if (IsOperatorValid && IsHoursValid)
-                    IsValid = true;
+                {
+                    if (!IsValid)
+                    {
+                        IsValid = true;
+                        DayUrl.CountOfValidated += 1;
+                        if (DayUrl.CountOfNotValidated > 0)
+                            DayUrl.CountOfNotValidated -= 1;
+                    }
+                }
                 else
-                    IsValid = false;
+                {
+                    if (IsValid)
+                    {
+                        IsValid = false;
+                        DayUrl.CountOfNotValidated += 1;
+                        if (DayUrl.CountOfNotValidated > 0)
+                            DayUrl.CountOfValidated -= 1;
+                    }
+                }
             }
             catch (Exception e)
             {

@@ -8,6 +8,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:BoolReverseConverter x:Key="BoolReverse"/>
+            <converters:DaycardsValidationConverter x:Key="ValidationConverter"/>
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -38,7 +39,8 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame Padding="5"
+                        <Grid>
+                            <Frame Padding="5"
                                Margin="10"
                                VerticalOptions="Start"
                                BorderColor="Black"
@@ -46,10 +48,13 @@
                                CornerRadius="20"
                                WidthRequest="100"
                                BackgroundColor="{Binding BackgroundColor}">
-                            <Label Text="{Binding Date, StringFormat='{0:ddd dd/MM}'}"
-                                   VerticalOptions="Center"
-                                   HorizontalOptions="Center"/>
-                        </Frame>
+                                <Label Text="{Binding Date, StringFormat='{0:ddd dd/MM}'}"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center"/>
+                            </Frame>
+                            <Label Text="✓" HorizontalOptions="Start" VerticalOptions="Start" Margin="5,0,0,0" TextColor="Green" IsVisible="{Binding CountOfValidated, Converter={StaticResource ValidationConverter}}"/>
+                            <Label Text="!" HorizontalOptions="Start" VerticalOptions="Start" Margin="0" TextColor="Red" IsVisible="{Binding CountOfNotValidated, Converter={StaticResource ValidationConverter}}"/>
+                        </Grid>        
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
@@ -71,7 +76,7 @@
                                 </StackLayout>
                                 <StackLayout Orientation="Horizontal" HeightRequest="50" BackgroundColor="White">
                                    <Label Text="Operator" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Start" Margin="10"/>
-                                   <Button Text="{Binding Operator}" HorizontalOptions="EndAndExpand" TextColor="Black" Margin="10"/>
+                                   <Button Text="{Binding Operator}" Command="{Binding ChangeOperator}" HorizontalOptions="EndAndExpand" TextColor="Black" Margin="10"/>
                                    <BoxView VerticalOptions="Fill"
                                             HorizontalOptions="End"
                                             WidthRequest="3"
