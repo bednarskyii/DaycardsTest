@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ControlsTest.Pages.MainDaycardsPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout Orientation="Horizontal" Margin="20">
+                <Button Text="⇦"
+                        FontSize="30"
+                        TextColor="Black"
+                        Command="{Binding GoBack}"
+                        VerticalOptions="Start"/>
+                <Label Text="{Binding DaycardName}"
+                       FontSize="30"
+                       VerticalOptions="Start"
+                       HorizontalOptions="CenterAndExpand"/>
+            </StackLayout>
+
+            <CollectionView ItemsSource="{Binding Dates}"
+                            VerticalOptions="Start"
+                            HorizontalOptions="CenterAndExpand"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding SelectedDate}"
+                            HeightRequest="40" 
+                            Margin="40, 0, 40, 0"
+                            HorizontalScrollBarVisibility="Never">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Frame Padding="5"
+                               Margin="0"
+                               VerticalOptions="Start"
+                               BorderColor="Black"
+                               HasShadow="False"
+                               CornerRadius="10"
+                               WidthRequest="100"
+                               BackgroundColor="{Binding BackgroundColor}">
+                               <Label Text="{Binding Date, StringFormat='{0:ddd dd/MM}'}"
+                                      VerticalOptions="Center"
+                                      HorizontalOptions="Center"/>
+                            </Frame>
+                        </Grid>        
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button Text="Add Daycard"
+                    Margin="10"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="End"
+                    HeightRequest="40"
+                    WidthRequest="170"
+                    TextColor="White"
+                    BackgroundColor="#4f64f7"
+                    Command="{Binding AddDayCard}"/>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

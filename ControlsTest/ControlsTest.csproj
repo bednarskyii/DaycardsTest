@@ -18,6 +18,9 @@
     <Folder Include="Models\" />
     <Folder Include="Converters\" />
     <Folder Include="Database\" />
+    <Folder Include="Enums\" />
+    <Folder Include="DaycardsModels\" />
+    <Folder Include="DaycardsViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\MainPage.xaml.cs">

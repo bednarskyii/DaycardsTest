@@ -7,17 +7,13 @@ namespace ControlsTest.Models
 {
     public class DayCardsModel : INotifyPropertyChanged
     {
-        public DayModel DayUrl;
-        public DayCardsModel()
-        {
-            DayUrl = new DayModel();
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
 
         [PrimaryKey] [AutoIncrement]
         public int DayCardId { get; set; }
-
         public DateTime Date { get; set; }
         public string DayCardNumber { get; set; }
+        public DayModel DayUrl = new DayModel();
 
         private bool isOperatorValid;
         public bool IsOperatorValid
@@ -87,14 +83,12 @@ namespace ControlsTest.Models
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsValid)));
             }
         }
-        public event PropertyChangedEventHandler PropertyChanged;
 
         private void ValidationCheck()
         {
             try
             {
                 int hrs;
-
                 if (Hours != "")
                     hrs = Convert.ToInt32(Hours);
                 else

@@ -95,20 +95,16 @@ namespace ControlsTest.ViewModels
             for (int i = 0; i < DateTime.DaysInMonth(DateTime.Now.Month, 1); i++)
             {
                 DayModel currentModel = new DayModel{ Date = firstDay};
-                //TODO - not a best practice  
-                List<DayCardsModel> cards = await database.GetDayCardsAsync(firstDay.Date);
 
-                currentModel.CountOfValidated = cards.Where(item => item.IsValid == true).Count();
-                currentModel.CountOfNotValidated = cards.Where(item => item.IsValid == false).Count();
+                currentModel.CountOfValidated = await database.GetCountOfCheckedDaycardsAsync(firstDay.Date, true);
+                currentModel.CountOfNotValidated = await database.GetCountOfCheckedDaycardsAsync(firstDay.Date, false);
 
                 if (firstDay.Date == DateTime.Now.Date)
                 {
                     currentModel.BackgroundColor = Color.FromHex("#9cc254");
-                    monthDates.Add(currentModel);
                 }
-                else
-                    monthDates.Add(currentModel);
 
+                monthDates.Add(currentModel);
                 firstDay = firstDay.AddDays(1);
             }
             Dates = new ObservableCollection<DayModel>(monthDates);

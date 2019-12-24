@@ -13,6 +13,7 @@
                 <views:EditorView/>
                 <Button Text="Sync" Command="{Binding Sync}"/>
                 <Button Text="Day cards" Command="{Binding DayCardsPage}"/>
+                <Button Text="Equipment" Command="{Binding ToEquipmentPage}"/>
             </StackLayout>
             <StackLayout Margin="0" BackgroundColor="Aqua" HorizontalOptions="EndAndExpand">
             </StackLayout>

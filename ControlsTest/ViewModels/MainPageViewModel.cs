@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
+using ControlsTest.Enums;
 using ControlsTest.Pages;
 using Xamarin.Forms;
 
@@ -19,6 +20,7 @@ namespace ControlsTest.ViewModels
 
         public Command Sync { get; set; }
         public Command DayCardsPage { get; set; }
+        public Command ToEquipmentPage { get; set; }
 
         public Color MainColor
         {
@@ -66,6 +68,7 @@ namespace ControlsTest.ViewModels
 
             Sync = new Command(() => OnSyncClicked());
             DayCardsPage = new Command(() => OnDayCardsPageClicked());
+            ToEquipmentPage = new Command(() => OnEquipmentPageClicked());
         }
 
         private void OnSyncClicked()
@@ -93,6 +96,19 @@ namespace ControlsTest.ViewModels
             {
                 var d = e.Message;
             }
+        }
+
+        private async Task OnEquipmentPageClicked()
+        {
+            try
+            {
+                await Navigation.PushModalAsync(new MainDaycardsPage(DaycardType.Equipment));
+            }
+            catch (Exception e)
+            {
+                var d = e.Message;
+            }
+
         }
 
     }

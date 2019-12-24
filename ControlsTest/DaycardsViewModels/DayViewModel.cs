@@ -2,9 +2,9 @@
 using System.ComponentModel;
 using Xamarin.Forms;
 
-namespace ControlsTest.Models
+namespace ControlsTest.DaycardsViewModels
 {
-    public class DayModel : INotifyPropertyChanged
+    public class DayViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public DateTime Date { get; set; }
