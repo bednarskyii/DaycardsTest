@@ -21,6 +21,7 @@
     <Folder Include="Enums\" />
     <Folder Include="DaycardsModels\" />
     <Folder Include="DaycardsViewModels\" />
+    <Folder Include="TemplateSelector\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\MainPage.xaml.cs">

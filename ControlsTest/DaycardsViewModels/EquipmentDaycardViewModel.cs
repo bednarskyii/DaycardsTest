@@ -4,7 +4,7 @@ using ControlsTest.Enums;
 
 namespace ControlsTest.DaycardsViewModels
 {
-    public class EquipmentDaycardViewModel : INotifyPropertyChanged
+    public class EquipmentDaycardViewModel : BaseDaycardViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

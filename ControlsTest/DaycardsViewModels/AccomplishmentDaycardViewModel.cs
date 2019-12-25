@@ -4,7 +4,7 @@ using ControlsTest.DaycardsModels;
 
 namespace ControlsTest.DaycardsViewModels
 {
-    public class AccomplishmentDaycardViewModel : INotifyPropertyChanged
+    public class AccomplishmentDaycardViewModel : BaseDaycardViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -1,7 +1,63 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ControlsTest.Pages.MainDaycardsPage">
+             x:Class="ControlsTest.Pages.MainDaycardsPage"
+             xmlns:controls="clr-namespace:ControlsTest.Controls"
+             xmlns:local="clr-namespace:ControlsTest.TemplateSelector">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="EquipmentDaycardTemplate">
+                <ViewCell>
+                    <StackLayout BackgroundColor="#efeeef" Margin="30, 30, 30, 0" Spacing="2" Padding="2">
+                        <StackLayout HeightRequest="50" BackgroundColor="Transparent">
+                            <Label Text="{Binding Title}"
+                                   VerticalOptions="CenterAndExpand"
+                                   Margin="10"
+                                   FontAttributes="Bold"/>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal" HeightRequest="50" BackgroundColor="White">
+                           <Label Text="Operator" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Start" Margin="10"/>
+                           <Button Text="{Binding Operator}" Command="{Binding ChangeOperator}" HorizontalOptions="EndAndExpand" TextColor="Black" Margin="10"/>
+
+                        </StackLayout>  
+                        <StackLayout Orientation="Horizontal" HeightRequest="50" BackgroundColor="White">
+                           <Label Text="Hours" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Start" Margin="10"/>
+                           <controls:EntryWithoutBorder WidthRequest="150"
+                                                        HeightRequest="50"
+                                                        HorizontalTextAlignment="End"
+                                                        VerticalOptions="Center"
+                                                        HorizontalOptions="EndAndExpand"
+                                                        Margin="10"
+                                                        FontAttributes="Bold"
+                                                        Placeholder="set hours"
+                                                        Text="{Binding Hours}"/>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal" HeightRequest="50" BackgroundColor="White">
+                           <Label Text="Miles" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Start" Margin="10"/>
+                           <controls:EntryWithoutBorder WidthRequest="150"
+                                                        HeightRequest="50"
+                                                        HorizontalTextAlignment="End"
+                                                        VerticalOptions="Center"
+                                                        HorizontalOptions="EndAndExpand"
+                                                        Margin="10"
+                                                        FontAttributes="Bold"
+                                                        Placeholder="set miles"
+                                                        Text="{Binding Miles}"/>
+                            <BoxView VerticalOptions="Fill"
+                                     HorizontalOptions="End"
+                                     WidthRequest="3"
+                                     Color="#9cc254"/>
+
+                        </StackLayout>  
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+
+            <local:DaycardTemplateSelector x:Key="DaycardTemplateSelector"
+                                           EquipmentDaycardTemplate="{StaticResource EquipmentDaycardTemplate}"/>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
             <StackLayout Orientation="Horizontal" Margin="20">
@@ -46,6 +102,11 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+
+            <ListView ItemsSource="{Binding DaycardsList}"
+                      ItemTemplate="{StaticResource DaycardTemplateSelector}"
+                      SeparatorVisibility="None"
+                      HasUnevenRows="True"/>
 
             <Button Text="Add Daycard"
                     Margin="10"
