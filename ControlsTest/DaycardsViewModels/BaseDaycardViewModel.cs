@@ -3,10 +3,8 @@ using System.ComponentModel;
 
 namespace ControlsTest.DaycardsViewModels
 {
-    public class BaseDaycardViewModel : INotifyPropertyChanged
+    public class BaseDaycardViewModel 
     {
         public string Title { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

@@ -14,6 +14,10 @@
                 <Button Text="Sync" Command="{Binding Sync}"/>
                 <Button Text="Day cards" Command="{Binding DayCardsPage}"/>
                 <Button Text="Equipment" Command="{Binding ToEquipmentPage}"/>
+                <Button Text="Labor" Command="{Binding ToLaborPage}"/>
+                <Button Text="Cost" Command="{Binding ToCostPage}"/>
+                <Button Text="Material" Command="{Binding ToMaterialPage}"/>
+                <Button Text="Accomplishment" Command="{Binding ToAccomplishmentPage}"/>
             </StackLayout>
             <StackLayout Margin="0" BackgroundColor="Aqua" HorizontalOptions="EndAndExpand">
             </StackLayout>

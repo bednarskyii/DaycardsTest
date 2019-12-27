@@ -66,19 +66,19 @@ namespace ControlsTest.Database
             switch (type)
             {
                 case DaycardType.Accomplishment:
-                    await database.InsertAsync(new AccomplishmentDaycardModel { Date = date});
+                    await database.InsertAsync(new AccomplishmentDaycardModel { Date = date, Title = "MockTitle"});
                     break;
                 case DaycardType.Cost:
-                    await database.InsertAsync(new CostDaycardModel { Date = date});
+                    await database.InsertAsync(new CostDaycardModel { Date = date, Title = "MockTitle" });
                     break;
                 case DaycardType.Equipment:
-                    await database.InsertAsync(new EquipmentDaycardModel { Date = date});
+                    await database.InsertAsync(new EquipmentDaycardModel { Date = date, Title = "MockTitle" });
                     break;
                 case DaycardType.Labor:
-                    await database.InsertAsync(new LaborDaycardModel { Date = date});
+                    await database.InsertAsync(new LaborDaycardModel { Date = date, TimeReportingCode = TimeReportingCode.Code01, Title = "MockTitle" });
                     break;
                 case DaycardType.Material:
-                    await database.InsertAsync(new MaterialDaycardModel { Date = date});
+                    await database.InsertAsync(new MaterialDaycardModel { Date = date, Title = "MockTitle" });
                     break;
             }
         }
@@ -107,5 +107,6 @@ namespace ControlsTest.Database
         {
             return await database.Table<MaterialDaycardModel>().Where(i => i.Date == date).ToListAsync();
         }
+
     }
 }

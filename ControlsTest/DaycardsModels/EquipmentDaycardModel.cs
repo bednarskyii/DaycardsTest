@@ -15,8 +15,8 @@ namespace ControlsTest.DaycardsModels
 
         public Operators Operator { get; set; }
 
-        public int Hours { get; set; }
+        public string Hours { get; set; }
 
-        public int Miles { get; set; }
+        public string Miles { get; set; }
     }
 }

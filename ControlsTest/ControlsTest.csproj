@@ -22,10 +22,14 @@
     <Folder Include="DaycardsModels\" />
     <Folder Include="DaycardsViewModels\" />
     <Folder Include="TemplateSelector\" />
+    <Folder Include="DaycardsTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Pages\MainPage.xaml.cs">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="DaycardsTemplates\EquipmentDaycardViewCell.xaml.cs">
+      <DependentUpon>EquipmentDaycardViewCell.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

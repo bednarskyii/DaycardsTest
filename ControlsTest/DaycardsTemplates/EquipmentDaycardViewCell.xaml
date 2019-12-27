@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell xmlns="http://xamarin.com/schemas/2014/forms"
+          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+          xmlns:controls="clr-namespace:ControlsTest.Controls"
+          x:Class="ControlsTest.DaycardsTemplates.EquipmentDaycardViewCell"> 
+    <ViewCell.View>
+        <Grid>
+           <StackLayout BackgroundColor="#efeeef" Margin="30, 30, 30, 0" Spacing="2" Padding="2">
+               <StackLayout HeightRequest="50" BackgroundColor="Transparent">
+                   <Label Text="{Binding Title}"
+                          VerticalOptions="CenterAndExpand"
+                          Margin="10"
+                          FontAttributes="Bold"/>
+               </StackLayout>
+               <StackLayout Orientation="Horizontal" HeightRequest="50" BackgroundColor="White">
+                  <Label Text="Operator" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Start" Margin="10"/>
+                  <Button Text="{Binding Operator}" Command="{Binding ChangeOperator}" HorizontalOptions="EndAndExpand" TextColor="Black" Margin="10"/>
+   
+               </StackLayout>  
+               <StackLayout Orientation="Horizontal" HeightRequest="50" BackgroundColor="White">
+                  <Label Text="Hours" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Start" Margin="10"/>
+                  <controls:EntryWithoutBorder WidthRequest="150"
+                                               HeightRequest="50"
+                                               HorizontalTextAlignment="End"
+                                               VerticalOptions="Center"
+                                               HorizontalOptions="EndAndExpand"
+                                               Margin="10"
+                                               FontAttributes="Bold"
+                                               Placeholder="set hours"
+                                               Text="{Binding Hours}"/>
+                   <BoxView VerticalOptions="Fill"
+                            HorizontalOptions="End"
+                            WidthRequest="3"
+                            Color="#9cc254"
+                            IsVisible="{Binding IsHoursValid}"/>
+
+               </StackLayout>
+               <StackLayout Orientation="Horizontal" HeightRequest="50" BackgroundColor="White">
+                  <Label Text="Miles" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Start" Margin="10"/>
+                  <controls:EntryWithoutBorder WidthRequest="150"
+                                               HeightRequest="50"
+                                               HorizontalTextAlignment="End"
+                                               VerticalOptions="Center"
+                                               HorizontalOptions="EndAndExpand"
+                                               Margin="10"
+                                               FontAttributes="Bold"
+                                               Placeholder="set miles"
+                                               Text="{Binding Miles}"/>
+                   <BoxView VerticalOptions="Fill"
+                            HorizontalOptions="End"
+                            WidthRequest="3"
+                            Color="#9cc254"
+                            IsVisible="{Binding IsMilesValid}"/>
+   
+               </StackLayout>  
+           </StackLayout>
+
+           <Label Text="✓" HorizontalOptions="Start" VerticalOptions="Start" Margin="25" TextColor="Green" IsVisible="{Binding IsValid}"/>
+           <Label Text="!" HorizontalOptions="Start" VerticalOptions="Start" Margin="25" TextColor="Red" IsVisible="{Binding IsValid, Converter={StaticResource BoolReverse}}"/>
+        </Grid>
+    </ViewCell.View>
+</ViewCell>

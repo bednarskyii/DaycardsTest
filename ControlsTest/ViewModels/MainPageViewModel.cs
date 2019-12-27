@@ -21,6 +21,10 @@ namespace ControlsTest.ViewModels
         public Command Sync { get; set; }
         public Command DayCardsPage { get; set; }
         public Command ToEquipmentPage { get; set; }
+        public Command ToLaborPage { get; set; }
+        public Command ToAccomplishmentPage { get; set; }
+        public Command ToCostPage { get; set; }
+        public Command ToMaterialPage { get; set; }
 
         public Color MainColor
         {
@@ -69,6 +73,10 @@ namespace ControlsTest.ViewModels
             Sync = new Command(() => OnSyncClicked());
             DayCardsPage = new Command(() => OnDayCardsPageClicked());
             ToEquipmentPage = new Command(() => OnEquipmentPageClicked());
+            ToLaborPage = new Command(() => OnLaborPageClicked());
+            ToAccomplishmentPage = new Command(() => OnAccomplishmentPageClicked());
+            ToCostPage = new Command(() => OnCostPageClicked());
+            ToMaterialPage = new Command(() => OnMaterialPageClicked());
         }
 
         private void OnSyncClicked()
@@ -100,16 +108,25 @@ namespace ControlsTest.ViewModels
 
         private async Task OnEquipmentPageClicked()
         {
-            try
-            {
-                await Navigation.PushModalAsync(new MainDaycardsPage(DaycardType.Equipment));
-            }
-            catch (Exception e)
-            {
-                var d = e.Message;
-            }
-
+            await Navigation.PushModalAsync(new MainDaycardsPage(DaycardType.Equipment));
         }
+        private async Task OnLaborPageClicked()
+        {
+            await Navigation.PushModalAsync(new MainDaycardsPage(DaycardType.Labor));
+        }
+        private async Task OnAccomplishmentPageClicked()
+        {
+            await Navigation.PushModalAsync(new MainDaycardsPage(DaycardType.Accomplishment));
+        }
+        private async Task OnCostPageClicked()
+        {
+            await Navigation.PushModalAsync(new MainDaycardsPage(DaycardType.Cost));
+        }
+        private async Task OnMaterialPageClicked()
+        {
+            await Navigation.PushModalAsync(new MainDaycardsPage(DaycardType.Material));
+        }
+
 
     }
 }
