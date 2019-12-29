@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
+using ControlsTest.Database;
 using ControlsTest.DaycardsModels;
 using ControlsTest.Enums;
 
@@ -8,17 +9,24 @@ namespace ControlsTest.DaycardsViewModels
 {
     public class EquipmentDaycardViewModel : BaseDaycardViewModel, INotifyPropertyChanged
     {
+        private IDatabaseRepository database;
         public event PropertyChangedEventHandler PropertyChanged;
         public DayViewModel DayUrl = new DayViewModel();
+        public int IdDaycard;
 
         public EquipmentDaycardViewModel(EquipmentDaycardModel daycard, DayViewModel dayViewModel)
         {
+            database = new DatabaseRepository();
+
+            IdDaycard = daycard.Id;
             Title = daycard.Title;
             Operator = daycard.Operator;
-            Miles = daycard.Miles;
-            Hours = daycard.Hours;
-
+            miles = daycard.Miles;
+            hours = daycard.Hours;
             DayUrl = dayViewModel;
+
+            if (daycard != null)
+                ValidationCheck();
         }
 
         private string title { get; set; }
@@ -106,7 +114,7 @@ namespace ControlsTest.DaycardsViewModels
             Regex regexHours = new Regex("^[1-2]?[0-9]$"); // regex between 0 and 29 
             Regex regexMiles = new Regex("^[0-9]*$"); // regex for only numbers
 
-            if (regexHours.IsMatch(Hours))
+            if (!string.IsNullOrEmpty(Hours) && regexHours.IsMatch(Hours))
             {
                 int hrs = Convert.ToInt32(Hours);
                 if (hrs > 0 && hrs <= 24)
@@ -119,9 +127,10 @@ namespace ControlsTest.DaycardsViewModels
                 IsHoursValid = false;
             }
 
-            IsMilesValid = regexMiles.IsMatch(Miles) && !string.IsNullOrEmpty(Miles);
+            IsMilesValid = !string.IsNullOrEmpty(Miles) && regexMiles.IsMatch(Miles);
 
-            if (IsHoursValid && IsMilesValid && !IsValid)            {
+            if (IsHoursValid && IsMilesValid && !IsValid)
+            {
                 IsValid = true;
                 DayUrl.CountOfValidated += 1;
                 if(DayUrl.CountOfNotValidated > 0)
@@ -137,6 +146,7 @@ namespace ControlsTest.DaycardsViewModels
                         DayUrl.CountOfValidated -= 1;
                 }
             }
+
         }
     }
 }

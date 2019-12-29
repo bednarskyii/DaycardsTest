@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using ControlsTest.DaycardsModels;
+using ControlsTest.DaycardsViewModels;
 using ControlsTest.Enums;
 using ControlsTest.Models;
 using SQLite;
@@ -87,26 +88,67 @@ namespace ControlsTest.Database
         {
             return await database.Table<AccomplishmentDaycardModel>().Where(i => i.Date == date).ToListAsync();
         }
-
         public async Task<List<CostDaycardModel>> GetCostsDaycardsByDateAsync(DateTime date)
         {
             return await database.Table<CostDaycardModel>().Where(i => i.Date == date).ToListAsync();
         }
-
         public async Task<List<EquipmentDaycardModel>> GetEquipmentDaycardsByDateAsync(DateTime date)
         {
             return await database.Table<EquipmentDaycardModel>().Where(i => i.Date == date).ToListAsync();
         }
-
         public async Task<List<LaborDaycardModel>> GetLaborDaycardsByDateAsync(DateTime date)
         {
             return await database.Table<LaborDaycardModel>().Where(i => i.Date == date).ToListAsync();
         }
-
         public async Task<List<MaterialDaycardModel>> GetMaterialDaycardsByDateAsync(DateTime date)
         {
             return await database.Table<MaterialDaycardModel>().Where(i => i.Date == date).ToListAsync();
         }
 
+        public async Task DeleDaycardByDateAsync(DaycardType type, DateTime date)
+        {
+            switch (type)
+            {
+                case DaycardType.Accomplishment:
+                    await database.Table<AccomplishmentDaycardModel>().Where(i => i.Date == date).DeleteAsync();
+                    break;
+                case DaycardType.Cost:
+                    await database.Table<CostDaycardModel>().Where(i => i.Date == date).DeleteAsync();
+                    break;
+                case DaycardType.Equipment:
+                    await database.Table<EquipmentDaycardModel>().Where(i => i.Date == date).DeleteAsync();
+                    break;
+                case DaycardType.Labor:
+                    await database.Table<LaborDaycardModel>().Where(i => i.Date == date).DeleteAsync();
+                    break;
+                case DaycardType.Material:
+                    await database.Table<MaterialDaycardModel>().Where(i => i.Date == date).DeleteAsync();
+                    break;
+            }
+        }
+
+        public async Task SaveUpdatedDaycardAsync(DaycardType type, object daycardItem)
+        {
+            switch (type)
+            {
+                case DaycardType.Accomplishment:
+                    await database.InsertAsync((AccomplishmentDaycardModel)daycardItem);
+                    break;
+                case DaycardType.Cost:
+                    await database.InsertAsync((CostDaycardModel)daycardItem);
+                    break;
+                case DaycardType.Equipment:
+                    EquipmentDaycardViewModel model = (EquipmentDaycardViewModel)daycardItem;
+                    var newModel = new EquipmentDaycardModel { Id = model.IdDaycard, Date = model.DayUrl.Date, Hours = model.Hours, Miles = model.Miles, Operator = model.Operator, Title = model.Title};
+                    await database.InsertAsync(newModel);
+                    break;                     
+                case DaycardType.Labor:        
+                    await database.InsertAsync((LaborDaycardModel)daycardItem);
+                    break;                     
+                case DaycardType.Material:     
+                    await database.InsertAsync((MaterialDaycardModel)daycardItem);
+                    break;                     
+            }
+        }
     }
 }

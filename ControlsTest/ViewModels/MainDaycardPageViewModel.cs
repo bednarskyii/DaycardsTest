@@ -56,6 +56,7 @@ namespace ControlsTest.ViewModels
             get => selectedDate;
             set
             {
+                UpdateChangedDaycards();
                 selectedDate = value;
                 FillDaycardsList();
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedDate)));
@@ -72,7 +73,7 @@ namespace ControlsTest.ViewModels
             }
         }
 
-        private void FillMonthDates()
+        private async Task FillMonthDates()
         {
             var monthDates = new List<DayViewModel>();
             DateTime firstDay = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
@@ -86,7 +87,7 @@ namespace ControlsTest.ViewModels
                     SelectedDate = currentModel;
                 }
 
-                monthDates.Add(currentModel);
+                monthDates.Add(await SetCountOfValidAndNot(currentModel));
                 firstDay = firstDay.AddDays(1);
             }
             Dates = new ObservableCollection<DayViewModel>(monthDates);
@@ -176,8 +177,35 @@ namespace ControlsTest.ViewModels
 
         private async Task<DayViewModel> SetCountOfValidAndNot(DayViewModel dayView)
         {
+            if(dayView != null)
+            {
+                List<EquipmentDaycardModel> equipmentDaycardModels = await database.GetEquipmentDaycardsByDateAsync(dayView.Date);
+
+                foreach (var item in equipmentDaycardModels)
+                {
+                    var currentViewModel = new EquipmentDaycardViewModel(item, dayView);
+
+                    if (currentViewModel.IsValid)
+                        dayView.CountOfValidated += 1;
+                    else
+                        dayView.CountOfNotValidated += 1;
+                }
+            }
 
             return dayView;
         }
+
+        private async Task UpdateChangedDaycards()
+        {
+            List<BaseDaycardViewModel> updatedDaycards = new List<BaseDaycardViewModel>(DaycardsList);
+
+            await database.DeleDaycardByDateAsync(typeOfDaycard ,SelectedDate.Date);
+
+            foreach (var item in updatedDaycards)
+            {
+                await database.SaveUpdatedDaycardAsync(typeOfDaycard, item);
+            }
+        }
+
     }
 }

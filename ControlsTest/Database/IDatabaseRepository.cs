@@ -16,10 +16,15 @@ namespace ControlsTest.Database
         Task<int> GetCountOfCheckedDaycardsAsync(DateTime date, bool isValid);
 
         Task SaveDaycardAsync(DaycardType type, DateTime date);
+
         Task<List<AccomplishmentDaycardModel>> GetAccomplishmentDaycardsByDateAsync(DateTime date);
         Task<List<CostDaycardModel>> GetCostsDaycardsByDateAsync(DateTime date);
         Task<List<EquipmentDaycardModel>> GetEquipmentDaycardsByDateAsync(DateTime date);
         Task<List<LaborDaycardModel>> GetLaborDaycardsByDateAsync(DateTime date);
         Task<List<MaterialDaycardModel>> GetMaterialDaycardsByDateAsync(DateTime date);
+
+        Task DeleDaycardByDateAsync(DaycardType type, DateTime date);
+
+        Task SaveUpdatedDaycardAsync(DaycardType type, object daycardItem);
     }
 }
