@@ -77,7 +77,7 @@ namespace ControlsTest.ViewModels
         {
             var monthDates = new List<DayViewModel>();
             DateTime firstDay = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            for (int i = 0; i < DateTime.DaysInMonth(DateTime.Now.Month, 1); i++)
+            for (int i = 0; i < 20; i++)
             {
                 DayViewModel currentModel = new DayViewModel { Date = firstDay };
 
@@ -95,73 +95,32 @@ namespace ControlsTest.ViewModels
 
         private async Task FillDaycardsList()
         {
-            if (typeOfDaycard == DaycardType.Labor)
+            List<BaseDaycardViewModel> baseDaycardViewModels = new List<BaseDaycardViewModel>();
+            var daycardsModels = await database.GetDaycardsByDateAndTypeAsync(typeOfDaycard, SelectedDate.Date);
+
+            foreach (var item in daycardsModels)
             {
-                List<LaborDaycardModel> equipmentDaycardModels = await database.GetLaborDaycardsByDateAsync(SelectedDate.Date);
-                List<LaborDaycardViewModel> laborDaycardViewModels = new List<LaborDaycardViewModel>();
-
-                foreach (var item in equipmentDaycardModels)
+                switch (typeOfDaycard)
                 {
-                    laborDaycardViewModels.Add(new LaborDaycardViewModel(item));
+                    case DaycardType.Accomplishment:
+                        baseDaycardViewModels.Add(new AccomplishmentDaycardViewModel((AccomplishmentDaycardModel)item, SelectedDate));
+                        break;
+                    case DaycardType.Cost:
+                        baseDaycardViewModels.Add(new CostDaycardViewModel((CostDaycardModel)item, SelectedDate));
+                        break;
+                    case DaycardType.Equipment:
+                        baseDaycardViewModels.Add(new EquipmentDaycardViewModel((EquipmentDaycardModel)item, SelectedDate));
+                        break;
+                    case DaycardType.Labor:
+                        baseDaycardViewModels.Add(new LaborDaycardViewModel((LaborDaycardModel)item, SelectedDate));
+                        break;
+                    case DaycardType.Material:
+                        baseDaycardViewModels.Add(new MaterialDaycardViewModel((MaterialDaycardModel)item, SelectedDate));
+                        break;
                 }
-
-                DaycardsList = new ObservableCollection<BaseDaycardViewModel>(laborDaycardViewModels);
             }
-            if (typeOfDaycard == DaycardType.Equipment)
-            {
-                List<EquipmentDaycardModel> equipmentDaycardModels = await database.GetEquipmentDaycardsByDateAsync(SelectedDate.Date);
-                List<EquipmentDaycardViewModel> equipmentDaycardViewModels = new List<EquipmentDaycardViewModel>();
 
-                foreach (var item in equipmentDaycardModels)
-                {
-                    var currentViewModel = new EquipmentDaycardViewModel(item, SelectedDate);
-
-                    if (currentViewModel.IsValid)
-                        SelectedDate.CountOfValidated += 1;
-                    else
-                        SelectedDate.CountOfNotValidated += 1;
-
-                    equipmentDaycardViewModels.Add(currentViewModel);
-                }
-
-                DaycardsList = new ObservableCollection<BaseDaycardViewModel>(equipmentDaycardViewModels);
-            }
-            if (typeOfDaycard == DaycardType.Cost)
-            {
-                List<CostDaycardModel> equipmentDaycardModels = await database.GetCostsDaycardsByDateAsync(SelectedDate.Date);
-                List<CostDaycardViewModel> laborDaycardViewModels = new List<CostDaycardViewModel>();
-
-                foreach (var item in equipmentDaycardModels)
-                {
-                    laborDaycardViewModels.Add(new CostDaycardViewModel(item));
-                }
-
-                DaycardsList = new ObservableCollection<BaseDaycardViewModel>(laborDaycardViewModels);
-            }
-            if (typeOfDaycard == DaycardType.Accomplishment)
-            {
-                List<AccomplishmentDaycardModel> equipmentDaycardModels = await database.GetAccomplishmentDaycardsByDateAsync(SelectedDate.Date);
-                List<AccomplishmentDaycardViewModel> equipmentDaycardViewModels = new List<AccomplishmentDaycardViewModel>();
-
-                foreach (var item in equipmentDaycardModels)
-                {
-                    equipmentDaycardViewModels.Add(new AccomplishmentDaycardViewModel(item));
-                }
-
-                DaycardsList = new ObservableCollection<BaseDaycardViewModel>(equipmentDaycardViewModels);
-            }
-            if (typeOfDaycard == DaycardType.Material)
-            {
-                List<MaterialDaycardModel> equipmentDaycardModels = await database.GetMaterialDaycardsByDateAsync(SelectedDate.Date);
-                List<MaterialDaycardViewModel> laborDaycardViewModels = new List<MaterialDaycardViewModel>();
-
-                foreach (var item in equipmentDaycardModels)
-                {
-                    laborDaycardViewModels.Add(new MaterialDaycardViewModel(item));
-                }
-
-                DaycardsList = new ObservableCollection<BaseDaycardViewModel>(laborDaycardViewModels);
-            }
+            DaycardsList = new ObservableCollection<BaseDaycardViewModel>(baseDaycardViewModels);
         }
 
         private async Task OnGoBackClicked()
@@ -179,19 +138,36 @@ namespace ControlsTest.ViewModels
         {
             if(dayView != null)
             {
-                List<EquipmentDaycardModel> equipmentDaycardModels = await database.GetEquipmentDaycardsByDateAsync(dayView.Date);
+                var daycardModels = await database.GetDaycardsByDateAndTypeAsync(typeOfDaycard ,dayView.Date);
+                var baseViewModel = new BaseDaycardViewModel();
 
-                foreach (var item in equipmentDaycardModels)
+                foreach (var item in daycardModels)
                 {
-                    var currentViewModel = new EquipmentDaycardViewModel(item, dayView);
+                    switch (typeOfDaycard)
+                    {
+                        case DaycardType.Accomplishment:
+                            baseViewModel = new AccomplishmentDaycardViewModel((AccomplishmentDaycardModel)item, dayView);
+                            break;
+                        case DaycardType.Cost:
+                            baseViewModel = new CostDaycardViewModel((CostDaycardModel)item, dayView);
+                            break;
+                        case DaycardType.Equipment:
+                            baseViewModel = new EquipmentDaycardViewModel((EquipmentDaycardModel)item, dayView);
+                            break;
+                        case DaycardType.Labor:
+                            baseViewModel = new LaborDaycardViewModel((LaborDaycardModel)item, dayView);
+                            break;
+                        case DaycardType.Material:
+                            baseViewModel = new MaterialDaycardViewModel((MaterialDaycardModel)item, dayView);
+                            break;
+                    }
 
-                    if (currentViewModel.IsValid)
+                    if (baseViewModel.IsValid)
                         dayView.CountOfValidated += 1;
                     else
                         dayView.CountOfNotValidated += 1;
                 }
             }
-
             return dayView;
         }
 
@@ -206,6 +182,5 @@ namespace ControlsTest.ViewModels
                 await database.SaveUpdatedDaycardAsync(typeOfDaycard, item);
             }
         }
-
     }
 }

@@ -4,14 +4,16 @@ using ControlsTest.DaycardsModels;
 
 namespace ControlsTest.DaycardsViewModels
 {
-    public class MaterialDaycardViewModel : BaseDaycardViewModel
+    public class MaterialDaycardViewModel : BaseDaycardViewModel, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public MaterialDaycardViewModel(MaterialDaycardModel daycard)
+        public MaterialDaycardViewModel(MaterialDaycardModel daycard, DayViewModel dayView)
         {
             Title = daycard.Title;
             Quantity = daycard.Quantity;
+            DayUrl = dayView;
+            IdDaycard = daycard.Id;
         }
 
         private string title { get; set; }

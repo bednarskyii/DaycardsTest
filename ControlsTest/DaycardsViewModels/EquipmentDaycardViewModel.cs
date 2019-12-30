@@ -11,8 +11,6 @@ namespace ControlsTest.DaycardsViewModels
     {
         private IDatabaseRepository database;
         public event PropertyChangedEventHandler PropertyChanged;
-        public DayViewModel DayUrl = new DayViewModel();
-        public int IdDaycard;
 
         public EquipmentDaycardViewModel(EquipmentDaycardModel daycard, DayViewModel dayViewModel)
         {
@@ -98,16 +96,6 @@ namespace ControlsTest.DaycardsViewModels
             }
         }
 
-        private bool isValid { get; set; }
-        public bool IsValid
-        {
-            get => isValid;
-            set
-            {
-                isValid = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsValid)));
-            }
-        }
 
         private void ValidationCheck()
         {
@@ -136,15 +124,12 @@ namespace ControlsTest.DaycardsViewModels
                 if(DayUrl.CountOfNotValidated > 0)
                     DayUrl.CountOfNotValidated -= 1;
             }
-            else 
+            if(!IsHoursValid || !IsMilesValid && IsValid) 
             {
-                if (IsValid)
-                {
-                    IsValid = false;
-                    DayUrl.CountOfNotValidated += 1;
-                    if (DayUrl.CountOfValidated > 0)
-                        DayUrl.CountOfValidated -= 1;
-                }
+                IsValid = false;
+                DayUrl.CountOfNotValidated += 1;
+                if (DayUrl.CountOfValidated > 0)
+                    DayUrl.CountOfValidated -= 1;
             }
 
         }

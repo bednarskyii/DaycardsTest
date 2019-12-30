@@ -4,7 +4,7 @@ using SQLite;
 
 namespace ControlsTest.DaycardsModels
 {
-    public class LaborDaycardModel
+    public class LaborDaycardModel : IDaycard
     {
         [AutoIncrement] [PrimaryKey]
         public int Id { get; set; }
@@ -15,6 +15,6 @@ namespace ControlsTest.DaycardsModels
 
         public TimeReportingCode TimeReportingCode { get; set; }
 
-        public int Hours { get; set; }
+        public string Hours { get; set; }
     }
 }

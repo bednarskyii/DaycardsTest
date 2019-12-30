@@ -26,5 +26,7 @@ namespace ControlsTest.Database
         Task DeleDaycardByDateAsync(DaycardType type, DateTime date);
 
         Task SaveUpdatedDaycardAsync(DaycardType type, object daycardItem);
+
+        Task<List<IDaycard>> GetDaycardsByDateAndTypeAsync(DaycardType type, DateTime date);
     }
 }

@@ -3,7 +3,7 @@ using SQLite;
 
 namespace ControlsTest.DaycardsModels
 {
-    public class AccomplishmentDaycardModel
+    public class AccomplishmentDaycardModel : IDaycard
     {
         [AutoIncrement] [PrimaryKey]
         public int Id { get; set; }

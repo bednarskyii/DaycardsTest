@@ -132,23 +132,51 @@ namespace ControlsTest.Database
             switch (type)
             {
                 case DaycardType.Accomplishment:
-                    await database.InsertAsync((AccomplishmentDaycardModel)daycardItem);
+                    var model = (AccomplishmentDaycardViewModel)daycardItem;
+                    var newModel = new AccomplishmentDaycardModel { Id = model.IdDaycard, Date = model.DayUrl.Date, Quantity = model.Quantity, Title = model.Title};
+                    await database.InsertAsync(newModel);
                     break;
                 case DaycardType.Cost:
-                    await database.InsertAsync((CostDaycardModel)daycardItem);
+                    var modelCost = (CostDaycardViewModel)daycardItem;
+                    var newModelCost = new CostDaycardModel { Id = modelCost.IdDaycard, Date = modelCost.DayUrl.Date, Title = modelCost.Title, TotalCost = modelCost.TotalCost };
+                    await database.InsertAsync(newModelCost);
                     break;
                 case DaycardType.Equipment:
-                    EquipmentDaycardViewModel model = (EquipmentDaycardViewModel)daycardItem;
-                    var newModel = new EquipmentDaycardModel { Id = model.IdDaycard, Date = model.DayUrl.Date, Hours = model.Hours, Miles = model.Miles, Operator = model.Operator, Title = model.Title};
-                    await database.InsertAsync(newModel);
+                    var modelEquipment = (EquipmentDaycardViewModel)daycardItem;
+                    var newModelEquipment = new EquipmentDaycardModel { Id = modelEquipment.IdDaycard, Date = modelEquipment.DayUrl.Date, Hours = modelEquipment.Hours, Miles = modelEquipment.Miles, Operator = modelEquipment.Operator, Title = modelEquipment.Title};
+                    await database.InsertAsync(newModelEquipment);
                     break;                     
-                case DaycardType.Labor:        
-                    await database.InsertAsync((LaborDaycardModel)daycardItem);
+                case DaycardType.Labor:
+                    var modelLabor = (LaborDaycardViewModel)daycardItem;
+                    var newModelLabor = new LaborDaycardModel { Id = modelLabor.IdDaycard, Date = modelLabor.DayUrl.Date, Title = modelLabor.Title, Hours = modelLabor.Hours, TimeReportingCode = modelLabor.TimeReportingCode };
+                    await database.InsertAsync(newModelLabor);
                     break;                     
-                case DaycardType.Material:     
-                    await database.InsertAsync((MaterialDaycardModel)daycardItem);
+                case DaycardType.Material:
+                    var modelMaterial = (MaterialDaycardViewModel)daycardItem;
+                    var newModelMaterial = new MaterialDaycardModel { Id = modelMaterial.IdDaycard, Date = modelMaterial.DayUrl.Date, Title = modelMaterial.Title, Quantity = modelMaterial.Quantity };
+                    await database.InsertAsync(newModelMaterial);
                     break;                     
             }
         }
+
+        public async Task<List<IDaycard>> GetDaycardsByDateAndTypeAsync(DaycardType type, DateTime date)
+        {
+            switch (type)
+            {
+                case DaycardType.Accomplishment:
+                    return new List<IDaycard>(await database.Table<AccomplishmentDaycardModel>().Where(i => i.Date == date).ToListAsync());
+                case DaycardType.Cost:
+                    return new List<IDaycard>(await database.Table<CostDaycardModel>().Where(i => i.Date == date).ToListAsync());
+                case DaycardType.Equipment:
+                    return new List<IDaycard>(await database.Table<EquipmentDaycardModel>().Where(i => i.Date == date).ToListAsync());
+                case DaycardType.Labor:
+                    return new List<IDaycard>(await database.Table<LaborDaycardModel>().Where(i => i.Date == date).ToListAsync());
+                case DaycardType.Material:
+                    return new List<IDaycard>(await database.Table<MaterialDaycardModel>().Where(i => i.Date == date).ToListAsync());
+            }
+
+            return null;
+        }
+
     }
 }

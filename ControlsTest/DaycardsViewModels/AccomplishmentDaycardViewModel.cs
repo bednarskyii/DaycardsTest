@@ -8,10 +8,12 @@ namespace ControlsTest.DaycardsViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public AccomplishmentDaycardViewModel(AccomplishmentDaycardModel daycard)
+        public AccomplishmentDaycardViewModel(AccomplishmentDaycardModel daycard, DayViewModel dayView)
         {
             Title = daycard.Title;
             Quantity = daycard.Quantity;
+            DayUrl = dayView;
+            IdDaycard = daycard.Id;
         }
 
         private string title { get; set; }

@@ -4,14 +4,16 @@ using ControlsTest.DaycardsModels;
 
 namespace ControlsTest.DaycardsViewModels
 {
-    public class CostDaycardViewModel : BaseDaycardViewModel
+    public class CostDaycardViewModel : BaseDaycardViewModel, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public CostDaycardViewModel(CostDaycardModel daycard)
+        public CostDaycardViewModel(CostDaycardModel daycard, DayViewModel dayView)
         {
             Title = daycard.Title;
             TotalCost = daycard.TotalCost;
+            DayUrl = dayView;
+            IdDaycard = daycard.Id;
         }
 
         private string title { get; set; }
