@@ -17,7 +17,7 @@ namespace ControlsTest.DaycardsViewModels
         }
 
         private string title { get; set; }
-        public string Title
+        public override string Title
         {
             get => title;
             set
@@ -37,5 +37,7 @@ namespace ControlsTest.DaycardsViewModels
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Quantity)));
             }
         }
+
+        public override bool IsValid { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

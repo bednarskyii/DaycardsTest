@@ -23,7 +23,7 @@ namespace ControlsTest.DaycardsViewModels
         }
 
         private string title { get; set; }
-        public string Title
+        public override string Title
         {
             get => title;
             set
@@ -64,6 +64,17 @@ namespace ControlsTest.DaycardsViewModels
             {
                 timeReportingCode = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TimeReportingCode)));
+            }
+        }
+
+        private bool isValid { get; set; }
+        public override bool IsValid
+        {
+            get => isValid;
+            set
+            {
+                isValid = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsValid)));
             }
         }
 

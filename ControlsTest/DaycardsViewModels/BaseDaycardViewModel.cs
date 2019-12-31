@@ -7,20 +7,13 @@ namespace ControlsTest.DaycardsViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public string Title { get; set; }
+        public virtual string Title { get; set; }
         public int IdDaycard;
         public DayViewModel DayUrl = new DayViewModel();
 
+
         private bool isValid { get; set; }
-        public bool IsValid
-        {
-            get => isValid;
-            set
-            {
-                isValid = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsValid)));
-            }
-        }
+        public virtual bool IsValid { get; set; }
 
     }
 }
